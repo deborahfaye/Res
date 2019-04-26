@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Welcome to the Website</h2>
+<h2>Welcome to the Developer Skill System</h2>
 </body>
 </html>
