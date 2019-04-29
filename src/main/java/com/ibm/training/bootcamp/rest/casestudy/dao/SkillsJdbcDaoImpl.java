@@ -79,7 +79,7 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 		Skills skil =null;
 		
 		 if(id != null) {
-			 String sql = "SELECT id, skill FROM SKILLS where id =?";
+			 String sql = "SELECT id, skill FROM SKILLS where skillId =?";
 		 try(Connection conn =dataSource.getConnection();
 			 PreparedStatement ps = conn.prepareStatement(sql)){
 			 

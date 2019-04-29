@@ -29,11 +29,11 @@ public class User{
 			this.position=position;
 	}
 
-	public Long getId() {
+	public Long getid() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setdevId(Long id) {
 		this.id = id;
 	}
 
