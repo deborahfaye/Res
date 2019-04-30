@@ -7,7 +7,7 @@ public interface UserDao{
 
 	public List<User> findAll();
 
-	public User find(Long id);
+	public User find(Long devId);
 
 	public void add(User user);
 

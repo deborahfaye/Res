@@ -8,7 +8,7 @@ public interface UserService{
 
 	public List<User> findAll();
 
-	public User find(Long id);
+	public User find(Long devId);
 
 	public List<User> findByName(String firstName, String lastName);
 

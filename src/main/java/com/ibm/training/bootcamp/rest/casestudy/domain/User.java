@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class User{
 	
-	Long id;
+	Long devId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -20,8 +20,8 @@ public class User{
 		this(null,firstName, middleName, lastName, birthDate, position);
 	}
 	
-	public User(Long id, String firstName, String middleName, String lastName, Date birthDate, String position ) {
-			this.id=id;
+	public User(Long devId, String firstName, String middleName, String lastName, Date birthDate, String position ) {
+			this.devId=devId;
 			this.firstName=firstName;
 			this.middleName=middleName;
 			this.lastName=lastName;
@@ -30,11 +30,11 @@ public class User{
 	}
 
 	public Long getid() {
-		return id;
+		return devId;
 	}
 
-	public void setdevId(Long id) {
-		this.id = id;
+	public void setdevId(Long devId) {
+		this.devId = devId;
 	}
 
 	public String getFirstName() {

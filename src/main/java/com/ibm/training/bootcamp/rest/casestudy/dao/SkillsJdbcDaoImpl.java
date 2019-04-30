@@ -50,7 +50,7 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 	}
 
 	private void createSkillsTable() {
-		String createSql = "CREATE TABLE SKILLS" + "(id INTEGER IDENTITY PRIMARY KEY, " + "skill VARCHAR(255))";
+		String createSql = "CREATE TABLE SKILLS" + "(id INTEGER IDENTITY PRIMARY KEY, " + "skill VARCHAR(255) UNIQUE NOT NULL)";
 
 		try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
 

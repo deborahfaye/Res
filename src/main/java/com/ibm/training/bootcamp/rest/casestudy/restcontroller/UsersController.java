@@ -49,11 +49,11 @@ public class UsersController {
 	}
 	
 	@GET
-	@Path("{id}")
+	@Path("{devId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("id") String id) {
+	public User getUser(@PathParam("devId") String devId) {
 		try {
-			Long longid = Long.parseLong(id) ;
+			Long longid = Long.parseLong(devId) ;
 			User user = userService.find(longid);
 			
 			return user;

@@ -37,7 +37,6 @@ public class AssessmentController{
 	
 	@GET
 	@Produces (MediaType.APPLICATION_JSON)
-//	@Path("/all")
 	public List<Assessment> getAssessmentsAll(){
 		
 		try {
@@ -91,7 +90,7 @@ public class AssessmentController{
 	public Response addUser(Assessment assessment) {
 		 try {
 			 assessmentService.add(assessment);
-			 String result= "Assessment saved:" +assessment.getSkill()+ ""+assessment.getSkillLevel()+""+assessment.getMonthsExp()+""+assessment.getDevId();
+			 String result= "Assessment saved:" +assessment.getSkillId()+ ""+assessment.getSkillLevel()+""+assessment.getMonthsExp()+""+assessment.getDevId();
 		     return Response.status(201).entity(result).build();
 		 }catch(Exception e) {
 		 throw new WebApplicationException(e);

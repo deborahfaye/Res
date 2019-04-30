@@ -44,10 +44,7 @@ public class AssessmentServiceImpl implements AssessmentService{
 	
 	@Override
 	public void add(Assessment assessment) {
-
-
 			assessmentDao.add(assessment);
-		
 	}
 }
 	

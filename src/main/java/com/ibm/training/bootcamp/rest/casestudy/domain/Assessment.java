@@ -4,8 +4,8 @@ public class Assessment {
 
 	Long id;
 //	Long skillId;
-	private Long devId;
-	private String skill;
+    private Long devId;
+	private Long skillId;
 	private int monthsExp;
 	private int skillLevel;
 
@@ -13,14 +13,14 @@ public class Assessment {
 
 	}
 
-	public Assessment(int monthsExp, int skillLevel, Long devId, String skill) {
-		this(null, monthsExp, skillLevel, devId, skill);
+	public Assessment(int monthsExp, int skillLevel, Long devId, Long skillId) {
+		this(null, monthsExp, skillLevel, devId, skillId);
 	}
 
-	public Assessment(Long id, int monthsExp, int skillLevel, Long devId, String skill) {
+	public Assessment(Long id, int monthsExp, int skillLevel, Long devId, Long skillId) {
 		this.id = id;
 		this.devId = devId;
-		this.skill = skill;
+		this.skillId = skillId;
 		this.monthsExp = monthsExp;
 		this.skillLevel = skillLevel;
 	}
@@ -41,12 +41,12 @@ public class Assessment {
 		this.devId = devId;
 	}
 
-	public String getSkill() {
-		return skill;
+	public Long getSkillId() {
+		return skillId;
 	}
 
-	public void setSkill(String skill) {
-		this.skill = skill;
+	public void setSkillId(Long skillId) {
+		this.skillId = skillId;
 	}
 
 	public int getMonthsExp() {
