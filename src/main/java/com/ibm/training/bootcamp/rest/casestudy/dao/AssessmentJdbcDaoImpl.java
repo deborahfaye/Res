@@ -58,14 +58,17 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
 	private void createAssessmentsTable() {
 		
-		String createSql = "CREATE TABLE ASSESSMENTS" + "(id INTEGER IDENTITY PRIMARY KEY," + "monthsExp Integer,"
-				+ "skillLevel Integer," + "devId INTEGER FOREIGN  KEY REFERENCES USERS(devId)," + "skillId INTEGER FOREIGN  KEY REFERENCES SKILLS(id))";
-		
-
 		
 		try (Connection conn = dataSource.getConnection(); Statement stmt1 = conn.createStatement()) {
 			
+			String createSql = "CREATE TABLE ASSESSMENTS" + "(id INTEGER IDENTITY PRIMARY KEY," + "monthsExp Integer,"
+					+ "skillLevel Integer," + "devId INTEGER FOREIGN  KEY REFERENCES USERS(devId)," + "skill_name VARCHAR(255))";
+			
 			stmt1.executeUpdate(createSql);
+			
+//			String sql2 = "INSERT INTO ASSESSMENTS (skill_name) SELECT (skill) FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.skillId";
+//
+//			stmt1.executeUpdate(sql2);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,29 +78,62 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
 	private void insertInitAssessment() {
 		                         
-		add(new Assessment(3, 4, Long.valueOf(0),Long.valueOf(1)));
-		add(new Assessment(1, 5, Long.valueOf(1), Long.valueOf(1)));
-		add(new Assessment(2, 6, Long.valueOf(2), Long.valueOf(0)));
+		add(new Assessment(3, 4, Long.valueOf(0),"Python"));
+		add(new Assessment(1, 5, Long.valueOf(1), "Python"));
+		add(new Assessment(2, 6, Long.valueOf(2), "Java"));
 
 	}
+	
+	
+//	@Override
+//    public void addSkill(Assessment assessment1){
+//		
+//	
+//		String sql3 = "INSERT INTO ASSESSMENTS (skill_name) SELECT skill FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.devId";
+//				
+//
+//		try (Connection conn1 = dataSource.getConnection();
+//				PreparedStatement ps1 = conn1.prepareStatement(sql3)) {
+//			
+//			System.out.println(assessment1.getDevId() );
+//			
+//			
+//			ps1.setInt(1, assessment1.getMonthsExp());
+//			ps1.setInt(2, assessment1.getSkillLevel());
+//			ps1.setLong(3, assessment1.getDevId());
+////			ps1.setLong(4, assessment1.getSkillId());
+//			ps1.setString(4, assessment1.getSkill_name());
+//			
+//			ps1.executeUpdate();
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new RuntimeException(e);
+//		}
+//
+//	}
 
 	@Override
 	public List<Assessment> findAll() {
 
 		List<Assessment> assessments1 = new ArrayList<>();
 
+//		String sql3 = "INSERT INTO ASSESSMENTS (skill_name) SELECT skill FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.skillId";
+		
 		String sql1 = "SELECT * FROM ASSESSMENTS ";
-
-		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
+		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1); ) {
 
 			ResultSet results1 = ps1.executeQuery();
+
 
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(Long.valueOf(results1.getInt("id")),
 						results1.getInt("monthsExp"), results1.getInt("skillLevel"),
-						Long.valueOf(results1.getInt("devId")), Long.valueOf(results1.getInt("skillId")));
+						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"));
 
 				assessments1.add(assessment1);
+				
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,7 +148,9 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		Assessment assessment = null;
 
 		if (id != null) {
-			String sql = "SELECT id, monthsExp, skillLevel, devId, skillId  FROM ASSESSMENTS WHERE id=?";
+			String sql = "SELECT id, monthsExp, skillLevel, devId,skill_name  FROM ASSESSMENTS WHERE id=?";
+		
+			
 			try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql)) {
 
 				ps1.setInt(1, id.intValue());
@@ -121,11 +159,11 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 				if (results1.next()) {
 					assessment = new Assessment(Long.valueOf(results1.getInt("id")), results1.getInt("monthsExp"),
 							results1.getInt("skillLevel"), Long.valueOf(results1.getInt("devId")),
-							Long.valueOf(results1.getInt("skillId")));
+						 results1.getString("skill_name"));
 
 					System.out.println((Long.valueOf(results1.getInt("id")) + results1.getInt("monthsExp")
 							+ results1.getInt("skillLevel") + Long.valueOf(results1.getInt("devId"))
-							+ Long.valueOf(results1.getInt("skillId"))));
+							+ results1.getString("skill_name")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -151,7 +189,7 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(Long.valueOf(results1.getInt("id")),
 						results1.getInt("monthsExp"), results1.getInt("skillLevel"),
-						Long.valueOf(results1.getInt("devId")), Long.valueOf(results1.getInt("skillId")));
+						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"));
 
 				assessments1.add(assessment1);
 			}
@@ -166,18 +204,19 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 	public void add(Assessment assessment) {
 		
 		
-		String insertSql1 = "INSERT INTO ASSESSMENTS (monthsExp, skillLevel, devId, skillId) VALUES (?,?,?,?)";
+		String insertSql1 = "INSERT INTO ASSESSMENTS (monthsExp, skillLevel, devId, skill_name) VALUES (?,?,?,?)";
 
 		try (Connection conn1 = dataSource.getConnection();
 				PreparedStatement ps1 = conn1.prepareStatement(insertSql1)) {
 			
-			System.out.println(assessment.getDevId() + " " + assessment.getSkillId());
+			
 			
 			
 			ps1.setInt(1, assessment.getMonthsExp());
 			ps1.setInt(2, assessment.getSkillLevel());
 			ps1.setLong(3, assessment.getDevId());
-			ps1.setLong(4, assessment.getSkillId());
+//			ps1.setLong(4, assessment.getSkillId());
+			ps1.setString(4, assessment.getSkill_name());
 			
 			ps1.executeUpdate();
 
@@ -187,5 +226,23 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		}
 
 	}
+	
+	@Override
+	public void update(Assessment assessment) {
+		String updateSql ="UPDATE ASSESSMENTS SET devId=?, monthsExp=?, skillLevel=?, skill_name=? WHERE id=?";
+	
+	try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(updateSql)) {
 
+		ps.setLong(1, assessment.getDevId());
+		ps.setInt(2, assessment.getMonthsExp());
+		ps.setInt(3, assessment.getSkillLevel());
+		ps.setString(4, assessment.getSkill_name());
+		ps.setLong(5, assessment.getId());
+		ps.executeUpdate();
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new RuntimeException(e);
+	}
+	}
 }

@@ -46,5 +46,10 @@ public class AssessmentServiceImpl implements AssessmentService{
 	public void add(Assessment assessment) {
 			assessmentDao.add(assessment);
 	}
+	
+	@Override
+	public void update(Assessment assessment) {
+				assessmentDao.update(assessment);
+	}	
 }
 	

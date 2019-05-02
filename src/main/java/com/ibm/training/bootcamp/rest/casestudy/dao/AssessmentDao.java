@@ -15,6 +15,12 @@ public interface AssessmentDao{
 
 	public void add(Assessment assessment);
 
+	public void update(Assessment assessment);
+
+//	public List<Assessment> findSkill_name();
+
+//	public void addSkill(Assessment assessment1);
+
 //	public void join();
 
 //	public List<Assessment> Filter();

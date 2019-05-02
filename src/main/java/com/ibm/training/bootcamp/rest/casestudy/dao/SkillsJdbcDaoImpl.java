@@ -79,7 +79,7 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 		Skills skil =null;
 		
 		 if(id != null) {
-			 String sql = "SELECT id, skill FROM SKILLS where skillId =?";
+			 String sql = "SELECT id, skill FROM SKILLS where id =?";
 		 try(Connection conn =dataSource.getConnection();
 			 PreparedStatement ps = conn.prepareStatement(sql)){
 			 
@@ -88,6 +88,8 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 			 
 			 if(results.next()) {
 				 skil = new Skills(Long.valueOf(results.getInt("id")),results.getString("skill") );
+				 
+				 System.out.println(Long.valueOf(results.getInt("id")));
 			 }
 			 
 		 }catch (SQLException e) {
@@ -114,7 +116,8 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 			
 			while (results.next()) {
 				Skills skil= new Skills(Long.valueOf(results.getInt("id")), results.getString("skill"));
-			    
+			    System.out.println(Long.valueOf(results.getInt("id")));
+			    System.out.println( results.getString("skill"));
 				skills.add(skil);
 			}
 		}catch (SQLException e) {

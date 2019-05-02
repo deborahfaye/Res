@@ -15,6 +15,12 @@ public interface AssessmentService{
 	public List<Assessment> findByLevelExp(int monthsExp, int skillLevel);
 
 	public void add(Assessment assessment);
+
+//	public void upsert(Assessment assessment);
+
+	public void update(Assessment assessment);
+
+//	public void addSkill(Assessment assessment1);
 	
 	
 	

@@ -5,24 +5,34 @@ public class Assessment {
 	Long id;
 //	Long skillId;
     private Long devId;
-	private Long skillId;
+//	private Long skillId;
 	private int monthsExp;
 	private int skillLevel;
+	private String skill_name;
 
 	public Assessment() {
 
 	}
 
-	public Assessment(int monthsExp, int skillLevel, Long devId, Long skillId) {
-		this(null, monthsExp, skillLevel, devId, skillId);
+	public Assessment(int monthsExp, int skillLevel, Long devId,  String skill_name ) {
+		this(null, monthsExp, skillLevel, devId,  skill_name);
 	}
 
-	public Assessment(Long id, int monthsExp, int skillLevel, Long devId, Long skillId) {
+	public Assessment(Long id, int monthsExp, int skillLevel, Long devId,  String skill_name) {
 		this.id = id;
 		this.devId = devId;
-		this.skillId = skillId;
+//		this.skillId = skillId;
 		this.monthsExp = monthsExp;
 		this.skillLevel = skillLevel;
+		this.skill_name = skill_name;
+	}
+
+	public String getSkill_name() {
+		return skill_name;
+	}
+
+	public void setSkill_name(String skill_name) {
+		this.skill_name = skill_name;
 	}
 
 	public Long getId() {
@@ -41,13 +51,13 @@ public class Assessment {
 		this.devId = devId;
 	}
 
-	public Long getSkillId() {
-		return skillId;
-	}
-
-	public void setSkillId(Long skillId) {
-		this.skillId = skillId;
-	}
+//	public Long getSkillId() {
+//		return skillId;
+//	}
+//
+//	public void setSkillId(Long skillId) {
+//		this.skillId = skillId;
+//	}
 
 	public int getMonthsExp() {
 		return monthsExp;

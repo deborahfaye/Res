@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,8 +27,8 @@ import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentService;
 import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 
 
-@Path("/assessment")
-public class AssessmentController{
+   @Path("/assessment")
+   public class AssessmentController{
 	
 	private AssessmentService assessmentService;
 	
@@ -90,10 +91,25 @@ public class AssessmentController{
 	public Response addUser(Assessment assessment) {
 		 try {
 			 assessmentService.add(assessment);
-			 String result= "Assessment saved:" +assessment.getSkillId()+ ""+assessment.getSkillLevel()+""+assessment.getMonthsExp()+""+assessment.getDevId();
+			 String result= "Assessment saved:" +assessment.getSkillLevel()+""+assessment.getMonthsExp()+""+assessment.getDevId()+""+assessment.getSkill_name();
 		     return Response.status(201).entity(result).build();
 		 }catch(Exception e) {
 		 throw new WebApplicationException(e);
 		 }
 	}
+	
+@PUT
+@Path("{id}")
+@Consumes(MediaType.APPLICATION_JSON)
+public Response updateAssessment(@PathParam("id") Long id, Assessment assessment) {
+	
+	try {
+		assessment.setId(id);
+		assessmentService.update(assessment);
+		String result = "Assessment updated:" + assessment.getDevId()+""+assessment.getMonthsExp()+""+assessment.getSkillLevel()+""+assessment.getSkill_name();
+	    return Response.status(200).entity(result).build();
+	}catch (Exception e){
+		throw new WebApplicationException(e);
+	}
+}
 }
