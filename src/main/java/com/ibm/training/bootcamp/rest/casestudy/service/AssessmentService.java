@@ -2,9 +2,11 @@ package com.ibm.training.bootcamp.rest.casestudy.service;
 
 import java.util.List;
 
-import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.User;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 
 public interface AssessmentService{
 
@@ -19,6 +21,10 @@ public interface AssessmentService{
 //	public void upsert(Assessment assessment);
 
 	public void update(Assessment assessment);
+
+	public List<Assessment> findByLevel();
+
+	public List<Skills> findBySkill();
 
 //	public void addSkill(Assessment assessment1);
 	

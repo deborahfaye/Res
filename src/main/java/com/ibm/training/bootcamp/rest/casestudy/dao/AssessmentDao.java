@@ -1,9 +1,11 @@
 package com.ibm.training.bootcamp.rest.casestudy.dao;
 
 import java.util.List;
-import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.User;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;;
 
 public interface AssessmentDao{
 
@@ -16,6 +18,12 @@ public interface AssessmentDao{
 	public void add(Assessment assessment);
 
 	public void update(Assessment assessment);
+
+	public List<Assessment>  findByLevel() ;
+
+	public List<Skills> findBySkill();
+
+//	public List<Assessment> findHistory();
 
 //	public List<Assessment> findSkill_name();
 

@@ -9,12 +9,16 @@ public class Skills {
 
 	}
 
-	public Skills(String skill) {
-		this(null, skill);
-	}
+//	public Skills(String skill) {
+//		this(null, skill);
+//	}
 
 	public Skills(Long id, String skill) {
 		this.id = id;
+		this.skill = skill;
+	}
+	
+	public Skills( String skill) {
 		this.skill = skill;
 	}
 

@@ -16,13 +16,15 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
-import com.ibm.training.bootcamp.rest.casestudy.service.UserServiceImpl;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
-import com.ibm.training.bootcamp.rest.casestudy.service.SkillsService;
-import com.ibm.training.bootcamp.rest.casestudy.service.SkillsServiceImpl;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.User;
+//import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
+//import com.ibm.training.bootcamp.rest.casestudy.service.UserServiceImpl;
+//import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
+//import com.ibm.training.bootcamp.rest.casestudy.service.SkillsService;
+//import com.ibm.training.bootcamp.rest.casestudy.service.SkillsServiceImpl;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentService;
 import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 
@@ -52,7 +54,37 @@ import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 		}
 	}
 	
+	@GET
+	@Path("/history")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Assessment> getListFilter(){
+		
+		try {
+			List<Assessment> assessments;
+			
+				assessments = assessmentService.findByLevel();
 	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	
+	@GET
+	@Path("/skill")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Skills> getskillFilter(){
+		
+		try {
+			List<Skills> assessments;
+			
+				assessments = assessmentService.findBySkill();
+	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
 	@GET
 	@Produces (MediaType.APPLICATION_JSON)
 	@Path("/filter")

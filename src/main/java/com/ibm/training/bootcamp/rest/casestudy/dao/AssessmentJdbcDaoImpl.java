@@ -16,9 +16,10 @@ import org.hsqldb.jdbc.JDBCDataSource;
 
 import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
-import com.ibm.training.bootcamp.rest.casestudy.service.UserServiceImpl;
+//import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
+import com.ibm.training.bootcamp.rest.casestudy.dao.SkillsJdbcDaoImpl;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
+import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
 
 public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
@@ -62,7 +63,7 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		try (Connection conn = dataSource.getConnection(); Statement stmt1 = conn.createStatement()) {
 			
 			String createSql = "CREATE TABLE ASSESSMENTS" + "(id INTEGER IDENTITY PRIMARY KEY," + "monthsExp Integer,"
-					+ "skillLevel Integer," + "devId INTEGER FOREIGN  KEY REFERENCES USERS(devId)," + "skill_name VARCHAR(255))";
+					+ "skillLevel Integer," + "devId INTEGER FOREIGN  KEY REFERENCES USERS(devId)," +"skillId INTEGER FOREIGN  KEY REFERENCES SKILLS(id)," + "skill_name VARCHAR(255))";
 			
 			stmt1.executeUpdate(createSql);
 			
@@ -78,9 +79,11 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
 	private void insertInitAssessment() {
 		                         
-		add(new Assessment(3, 4, Long.valueOf(0),"Python"));
-		add(new Assessment(1, 5, Long.valueOf(1), "Python"));
-		add(new Assessment(2, 6, Long.valueOf(2), "Java"));
+		add(new Assessment(3, 4, Long.valueOf(0),"Python",Long.valueOf(1)));
+		add(new Assessment(1, 5, Long.valueOf(1), "Python",Long.valueOf(1)));
+		add(new Assessment(2, 4, Long.valueOf(2), "Java",Long.valueOf(0)));
+		add(new Assessment(2, 1, Long.valueOf(2), "Java",Long.valueOf(0)));
+		add(new Assessment(2, 4, Long.valueOf(2), "Java",Long.valueOf(0)));
 
 	}
 	
@@ -129,7 +132,7 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(Long.valueOf(results1.getInt("id")),
 						results1.getInt("monthsExp"), results1.getInt("skillLevel"),
-						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"));
+						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"),Long.valueOf(results1.getInt("skillId")));
 
 				assessments1.add(assessment1);
 				
@@ -159,7 +162,7 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 				if (results1.next()) {
 					assessment = new Assessment(Long.valueOf(results1.getInt("id")), results1.getInt("monthsExp"),
 							results1.getInt("skillLevel"), Long.valueOf(results1.getInt("devId")),
-						 results1.getString("skill_name"));
+						 results1.getString("skill_name"),Long.valueOf(results1.getInt("skillId")));
 
 					System.out.println((Long.valueOf(results1.getInt("id")) + results1.getInt("monthsExp")
 							+ results1.getInt("skillLevel") + Long.valueOf(results1.getInt("devId"))
@@ -178,7 +181,12 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		List<Assessment> assessments1 = new ArrayList<>();
 
 		String sql1 = "SELECT * FROM ASSESSMENTS WHERE monthsExp = ? OR skillLevel = ? ";
+    
 
+//		String sql1 ="SELECT USERS.firstName, USERS.lastName , ASSESSMENTS.skill_name, ASSESSMENTS.monthsExp, ASSESSMENTS.skillLevel FROM USERS INNER JOIN ASSESSMENTS ON USERS.devId = ASSESSMENS.devId";
+		
+		
+		
 		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
 
 			ps1.setInt(1, monthsExp);
@@ -189,7 +197,7 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(Long.valueOf(results1.getInt("id")),
 						results1.getInt("monthsExp"), results1.getInt("skillLevel"),
-						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"));
+						Long.valueOf(results1.getInt("devId")), results1.getString("skill_name"),Long.valueOf(results1.getInt("skillId")));
 
 				assessments1.add(assessment1);
 			}
@@ -244,5 +252,110 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		e.printStackTrace();
 		throw new RuntimeException(e);
 	}
+	}
+
+  @Override 
+  public List<Skills> findBySkill(){
+	  List<Skills> assessments1 = new ArrayList<>();
+		
+	  String sql1 = "SELECT (skill) FROM SKILLS";
+	  try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
+		  ResultSet results1 = ps1.executeQuery();
+		  
+		  List<String> skillsList = new ArrayList<>();
+			while (results1.next()) {
+				Skills assessment1 = new Skills(
+						results1.getString("skill"));
+				
+				assessments1.add(assessment1);
+				skillsList.add(results1.getString("skill"));
+			}		
+			
+			System.out.println(skillsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+			return assessments1;
+		}
+	  
+  
+	
+	
+	@Override
+	public List<Assessment>  findByLevel() {
+		List<Assessment> assessments1 = new ArrayList<>();
+        
+		
+		String sql1 = "SELECT (skill_name), skillLevel,COUNT(skillLevel) FROM ASSESSMENTS GROUP BY skill_name, skillLevel ";
+		
+		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
+			System.out.println("print");
+
+			ResultSet results1 = ps1.executeQuery();
+			while (results1.next()) {
+				
+				Assessment assessment1 = new Assessment(
+							results1.getString("skill_name"),results1.getInt("skillLevel"),results1.getInt("Level"));
+					
+					assessments1.add(assessment1);
+//					skillsList.add(results1.getString("skill"));
+						
+				
+//				System.out.println(results1.getString(1)+":"+results1.getInt(2) + ":" + results1.getInt(3));
+		        
+//				Search assessment1 = new Search(
+				switch (results1.getInt(2)) {
+			      case 0:
+			    	 // results1.getInt("Trained");
+			    	  System.out.println("0-Trained");
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			      case 1:
+			    	  results1.getInt("Novice");
+			    	  System.out.println("1-Novice");
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			      case 2:
+			    	  //results1.getInt("Proficient");
+			    	  System.out.println("2-Proficient");
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			      case 3:
+			    	//  results1.getInt("Advanced");
+			    	  System.out.println("3-Advanced");
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			      case 4:
+			    	//  results1.getInt("Expert");
+			    	  System.out.println("4-Expert");
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			      case 5:
+			    	//  results1.getInt("Leader");
+			    	  System.out.println("5-Leader");
+//			    	  assessments1.add(assessment1);
+			    	  System.out.println(results1.getInt(3));
+			        break;
+			    }
+//				);
+//				Search assessment1 = new Search(
+//						results1.getString("skill_name")
+//						results1.getInt("Trained"),
+//						results1.getInt("Novice"),
+//						results1.getInt("Proficient"),
+//						results1.getInt("Advanced"),
+//						results1.getInt("Expert"),
+//						results1.getInt("Leader")
+//						);
+//
+//				assessments1.add(assessment1);
+		}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return assessments1;
 	}
 }
