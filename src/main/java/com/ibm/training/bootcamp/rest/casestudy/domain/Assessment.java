@@ -3,20 +3,21 @@ package com.ibm.training.bootcamp.rest.casestudy.domain;
 public class Assessment {
 
 	Long id;
-//	Long skillId;
     private Long devId;
 	private Long skillId;
 	private int monthsExp;
 	private int skillLevel;
 	private String skill_name;
-	private int Level;
+
+	private String firstName;
+	private String lastName;
 
 	public Assessment() {
 
 	}
 
 	public Assessment(int monthsExp, int skillLevel, Long devId,  String skill_name , Long skillId) {
-		this(null, monthsExp, skillLevel, devId,  skill_name, skillId);
+		this(null,monthsExp, skillLevel, devId,  skill_name, skillId );
 	}
 
 	public Assessment(Long id, int monthsExp, int skillLevel, Long devId,  String skill_name, Long skillId) {
@@ -26,20 +27,50 @@ public class Assessment {
 		this.monthsExp = monthsExp;
 		this.skillLevel = skillLevel;
 		this.skill_name = skill_name;
+		
 	}
 	
-	public Assessment(  String skill_name, int skillLevel, int Level) {
+	
+	public Assessment(String firstName,String lastName, int monthsExp, int skillLevel,  String skill_name,Long devId ) {
+		this.monthsExp = monthsExp;
+		this.skillLevel = skillLevel;
+		this.skill_name = skill_name;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.devId = devId;
+	}
+	
+	
+	public Assessment(  String skill_name, int skillLevel) {
 		this.skill_name = skill_name;
 		this.skillLevel = skillLevel;
-		this.Level = Level;
+	
+	}
+	
+//	public Assessment(  String firstName, String lastName, int monthsExp, int skillLevel, Long devId,  String skill_name) {
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+//		this.devId = devId;
+//		this.monthsExp = monthsExp;
+//		this.skillLevel = skillLevel;
+//		this.skill_name = skill_name;
+//	
+//	}
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public int getLevel() {
-		return Level;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public void setLevel(int level) {
-		Level = level;
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Long getSkillId() {
@@ -73,14 +104,6 @@ public class Assessment {
 	public void setDevId(Long devId) {
 		this.devId = devId;
 	}
-
-//	public Long getSkillId() {
-//		return skillId;
-//	}
-//
-//	public void setSkillId(Long skillId) {
-//		this.skillId = skillId;
-//	}
 
 	public int getMonthsExp() {
 		return monthsExp;

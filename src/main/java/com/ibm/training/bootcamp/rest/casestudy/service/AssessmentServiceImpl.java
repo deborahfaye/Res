@@ -43,6 +43,10 @@ public class AssessmentServiceImpl implements AssessmentService{
 	public List<Assessment> findByLevelExp(int monthsExp, int skillLevel){
 		return assessmentDao.findByLevelExp(monthsExp, skillLevel);
 	}
+	@Override
+	public List<Assessment> findByLevelExp2(int monthsExp, int skillLevel){
+		return assessmentDao.findByLevelExp2(monthsExp, skillLevel);
+	}
 	
 	@Override
 	public void add(Assessment assessment) {
@@ -62,6 +66,25 @@ public class AssessmentServiceImpl implements AssessmentService{
 	@Override
 	public List<Skills> findBySkill(){
 		return assessmentDao.findBySkill();
+	}
+	
+	@Override
+	public List<Assessment> findjoinedtable(String skill_name){
+		return assessmentDao.findjoinedtable(skill_name);
+	}
+	
+	@Override
+	public List<Assessment> findAllJoined(){
+		return assessmentDao.findAllJoined();
+	}
+	
+	@Override
+	public List<Assessment> findjoinedtable2(String firstName, String lastName){
+		return assessmentDao.findjoinedtable2(firstName,lastName);
+	}
+	@Override
+	public List<Assessment> findjoinedtable3(String firstName, String lastName){
+		return assessmentDao.findjoinedtable3(firstName,lastName);
 	}
 }
 	

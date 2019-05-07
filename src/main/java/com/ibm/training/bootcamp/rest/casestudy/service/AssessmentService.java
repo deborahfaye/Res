@@ -26,6 +26,16 @@ public interface AssessmentService{
 
 	public List<Skills> findBySkill();
 
+	public List<Assessment> findjoinedtable(String skill_name);
+
+	public List<Assessment> findAllJoined();
+
+	public List<Assessment> findjoinedtable2(String firstName, String lastName);
+	
+	public List<Assessment> findjoinedtable3(String firstName, String lastName);
+
+	public List<Assessment> findByLevelExp2(int monthsExp, int skillLevel);
+
 //	public void addSkill(Assessment assessment1);
 	
 	

@@ -85,6 +85,71 @@ import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 			throw new WebApplicationException(e);
 		}
 	}
+	
+	@GET
+	@Path("/joined/filter")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Assessment> getsjoinedTable(@QueryParam("skill_name") String skill_name){
+		
+		try {
+			List<Assessment> assessments;
+			
+				assessments = assessmentService.findjoinedtable( skill_name);
+	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	
+	
+	@GET
+	@Path("/joined/filter2")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Assessment> getsjoinedTable2(@QueryParam("firstName") String firstName,
+	             	@QueryParam("lastName") String lastName){
+		try {
+			List<Assessment> assessments;
+			
+				assessments = assessmentService.findjoinedtable2( firstName,lastName);
+	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	@GET
+	@Path("/joined/filter3")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Assessment> getsjoinedTable3(@QueryParam("firstName") String firstName,
+	             	@QueryParam("lastName") String lastName){
+		try {
+			List<Assessment> assessments;
+			
+				assessments = assessmentService.findjoinedtable3( firstName,lastName);
+	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	
+	@GET
+	@Path("/joined")
+	@Produces (MediaType.APPLICATION_JSON)
+	public List<Assessment> getsjoinedTableAll(){
+		
+		try {
+			List<Assessment> assessments;
+			
+				assessments = assessmentService.findAllJoined();
+	
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	
 	@GET
 	@Produces (MediaType.APPLICATION_JSON)
 	@Path("/filter")
@@ -97,6 +162,24 @@ import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 			
 			
 				assessments = assessmentService.findByLevelExp(monthsExp, skillLevel);
+			
+			return assessments;
+		}catch(Exception e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	@Path("/filter2")
+	public List<Assessment> getAssessments2(
+			@QueryParam("monthsExp") int monthsExp,
+			@QueryParam("skillLevel") int skillLevel){
+		
+		try {
+			List<Assessment> assessments;
+			
+			
+				assessments = assessmentService.findByLevelExp2(monthsExp, skillLevel);
 			
 			return assessments;
 		}catch(Exception e) {
