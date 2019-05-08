@@ -6,7 +6,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -45,19 +44,6 @@ public class SkillsController {
 		}
 	}
 	
-	@GET
-	@Path("{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Skills getSkill(@PathParam("id") String id) {
-		
-		try {
-			Long longId = Long.parseLong(id);
-			Skills skil = skillsService.find(longId);
-			return skil;
-		} catch(Exception e) {
-			throw new WebApplicationException(e);
-		}
-	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

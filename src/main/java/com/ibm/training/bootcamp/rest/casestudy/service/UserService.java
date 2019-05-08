@@ -8,8 +8,6 @@ public interface UserService{
 
 	public List<User> findAll();
 
-	public User find(Long devId);
-
 	public List<User> findByName(String firstName, String lastName);
 
 	public void add(User user);

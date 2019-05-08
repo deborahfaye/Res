@@ -5,14 +5,11 @@ import java.util.List;
 //import com.ibm.training.bootcamp.rest.casestudy.domain.User;
 //import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 
 public interface AssessmentService{
 
 	public List<Assessment> findAll();
-
-	public Assessment find(Long id);
 
 	public List<Assessment> findByLevelExp(int monthsExp, int skillLevel);
 

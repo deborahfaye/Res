@@ -71,31 +71,6 @@ public class UserJdbcDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User find(Long devId) {
-
-		User user = null;
-
-		if (devId != null) {
-			String sql1 = "SELECT devId, firstName, middleName, lastName, birthDate, position FROM USERS where devId =?";
-			try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
-
-				ps1.setInt(1, devId.intValue());
-				ResultSet results1 = ps1.executeQuery();
-
-				if (results1.next()) {
-					user = new User(Long.valueOf(results1.getInt("devId")), results1.getString("firstName"),
-							results1.getString("middleName"), results1.getString("lastName"),
-			   				results1.getDate("birthDate"), results1.getString("position"));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-		}
-		return user;
-	}
-
-	@Override
 	public List<User> findByName(String firstName, String lastName) {
 		List<User> users = new ArrayList<>();
 

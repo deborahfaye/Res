@@ -23,10 +23,6 @@ public class SkillsServiceImpl implements SkillsService{
 		return skillsDao.findAll();
 	}
 	
-	@Override
-	public Skills find(Long id) {
-		return skillsDao.find(id);
-	}
 	
 	@Override 
 	public List<Skills> findBySkill(String skill){

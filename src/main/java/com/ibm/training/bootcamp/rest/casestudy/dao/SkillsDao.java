@@ -8,8 +8,6 @@ public interface SkillsDao {
 
 	public List<Skills> findAll();
 
-	public Skills find(Long id);
-
 	public List<Skills> findBySkill(String skill);
 
 	public void add(Skills skil);

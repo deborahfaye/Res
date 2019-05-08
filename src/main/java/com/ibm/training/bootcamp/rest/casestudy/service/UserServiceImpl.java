@@ -23,11 +23,6 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public User find(Long devId) {
-		return userDao.find(devId);
-	}
-	
-	@Override
 	public List<User> findByName(String firstName, String lastName){
 		return userDao.findByName(firstName, lastName);
 	}

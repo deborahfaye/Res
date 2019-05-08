@@ -14,16 +14,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.lang3.StringUtils;
-
-//import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-//import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
-//import com.ibm.training.bootcamp.rest.casestudy.service.UserServiceImpl;
-//import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
-//import com.ibm.training.bootcamp.rest.casestudy.service.SkillsService;
-//import com.ibm.training.bootcamp.rest.casestudy.service.SkillsServiceImpl;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
 import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentService;
 import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
@@ -187,20 +178,7 @@ import com.ibm.training.bootcamp.rest.casestudy.service.AssessmentServiceImpl;
 		}
 	}
 	
-	@GET
-	@Path("{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Assessment getAssessment(@PathParam("id") String id) {
-		try {
-			Long longid = Long.parseLong(id) ;
-			Assessment assessment = assessmentService.find(longid);
-			
-			return assessment;
-		}catch(Exception e) {
-			throw new WebApplicationException(e);
-		}
-	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addUser(Assessment assessment) {

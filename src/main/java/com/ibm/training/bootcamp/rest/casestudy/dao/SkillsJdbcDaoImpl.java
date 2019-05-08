@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hsqldb.jdbc.JDBCDataSource;
@@ -65,6 +64,7 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 	private void insertInitSkills() {
 		add(new Skills("Java" ));
 		add(new Skills("Python" ));
+		add(new Skills("Css" ));
 	}
 
 	
@@ -73,34 +73,6 @@ public class SkillsJdbcDaoImpl implements SkillsDao {
 		return findBySkill(null);
 	}
 	
-	@Override
-	public Skills find(Long id) {
-		
-		Skills skil =null;
-		
-		 if(id != null) {
-			 String sql = "SELECT id, skill FROM SKILLS where id =?";
-		 try(Connection conn =dataSource.getConnection();
-			 PreparedStatement ps = conn.prepareStatement(sql)){
-			 
-			 ps.setInt(1,id.intValue());
-			 ResultSet results =ps.executeQuery();
-			 
-			 if(results.next()) {
-				 skil = new Skills(Long.valueOf(results.getInt("id")),results.getString("skill") );
-				 
-				 System.out.println(Long.valueOf(results.getInt("id")));
-			 }
-			 
-		 }catch (SQLException e) {
-			 e.printStackTrace();
-			 throw new RuntimeException(e);
-			 
-		 }
-		 
-		 }
-		 return skil;
-	}
 	
 	@Override
     public List<Skills> findBySkill(String skill){

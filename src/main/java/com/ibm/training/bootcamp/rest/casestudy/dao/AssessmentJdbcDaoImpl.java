@@ -8,18 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.hsqldb.jdbc.JDBCDataSource;
 
 import com.ibm.training.bootcamp.rest.casestudy.domain.Skills;
-import com.ibm.training.bootcamp.rest.casestudy.domain.User;
-//import com.ibm.training.bootcamp.rest.casestudy.service.UserService;
 import com.ibm.training.bootcamp.rest.casestudy.dao.SkillsJdbcDaoImpl;
 import com.ibm.training.bootcamp.rest.casestudy.domain.Assessment;
-import com.ibm.training.bootcamp.rest.casestudy.domain.Search;
+
 
 public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
@@ -67,9 +61,6 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 			
 			stmt1.executeUpdate(createSql);
 			
-//			String sql2 = "INSERT INTO ASSESSMENTS (skill_name) SELECT (skill) FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.skillId";
-//
-//			stmt1.executeUpdate(sql2);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,11 +70,11 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
 	private void insertInitAssessment() {
 		                         
-		add(new Assessment(3, 4, Long.valueOf(0),"Python",Long.valueOf(1)));
-		add(new Assessment(1, 5, Long.valueOf(1), "Python",Long.valueOf(1)));
-		add(new Assessment(2, 4, Long.valueOf(2), "Java",Long.valueOf(0)));
-		add(new Assessment(2, 1, Long.valueOf(2), "Java",Long.valueOf(0)));
-		add(new Assessment(2, 4, Long.valueOf(2), "Java",Long.valueOf(0)));
+		add(new Assessment(6, 4, Long.valueOf(0),"Python",Long.valueOf(1)));
+		add(new Assessment(12, 5, Long.valueOf(1), "Python",Long.valueOf(1)));
+		add(new Assessment(6, 4, Long.valueOf(2), "Java",Long.valueOf(0)));
+		add(new Assessment(2, 1, Long.valueOf(2), "Python",Long.valueOf(0)));
+		add(new Assessment(6, 4, Long.valueOf(2), "Css",Long.valueOf(0)));
 
 	}
 	
@@ -92,8 +83,6 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 	public List<Assessment> findAll() {
 
 		List<Assessment> assessments1 = new ArrayList<>();
-
-//		String sql3 = "INSERT INTO ASSESSMENTS (skill_name) SELECT skill FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.skillId";
 		
 		String sql1 = "SELECT * FROM ASSESSMENTS ";
 		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1); ) {
@@ -122,103 +111,9 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 
 	}
 
-	@Override
-	public Assessment find(Long id) {
-		Assessment assessment = null;
-
-		if (id != null) {
-			String sql = "SELECT id, monthsExp, skillLevel, devId,skill_name  FROM ASSESSMENTS WHERE id=?";
-		
-			
-			try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql)) {
-
-				ps1.setInt(1, id.intValue());
-				ResultSet results1 = ps1.executeQuery();
-
-				if (results1.next()) {
-					assessment = new Assessment(Long.valueOf(results1.getInt("id")), 
-						
-							results1.getInt("monthsExp"),
-							results1.getInt("skillLevel"), 
-							Long.valueOf(results1.getInt("devId")),
-						    results1.getString("skill_name"),
-						    Long.valueOf(results1.getInt("skillId")));
-
-					System.out.println((Long.valueOf(results1.getInt("id")) + results1.getInt("monthsExp")
-							+ results1.getInt("skillLevel") + Long.valueOf(results1.getInt("devId"))
-							+ results1.getString("skill_name")));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-		}
-		return assessment;
-	}
-
-	@Override
-	public List<Assessment> findByLevelExp(int monthsExp, int skillLevel) {
-		List<Assessment> assessments1 = new ArrayList<>();
-
-		 String sql1 = "SELECT USERS.firstName, USERS.lastName, ASSESSMENTS.skill_name, ASSESSMENTS.skillLevel, ASSESSMENTS.monthsExp, ASSESSMENTS.devId FROM ASSESSMENTS INNER JOIN USERS ON ASSESSMENTS.devId=USERS.devId WHERE monthsExp = ? OR skillLevel =?";
-    
-		
-		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
-
-			ps1.setInt(1, monthsExp);
-			ps1.setInt(2, skillLevel);
-
-			ResultSet results1 = ps1.executeQuery();
-
-			while (results1.next()) {
-				Assessment assessment1 = new Assessment(
-						results1.getString("firstName"),
-						results1.getString("lastName"),
-						results1.getInt("monthsExp"),
-						results1.getInt("skillLevel"),
-						results1.getString("skill_name"),
-						Long.valueOf(results1.getInt("devId")));
-
-				assessments1.add(assessment1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		return assessments1;
-	}
 	
-	@Override
-	public List<Assessment> findByLevelExp2(int monthsExp, int skillLevel) {
-		List<Assessment> assessments1 = new ArrayList<>();
-
-		 String sql1 = "SELECT USERS.firstName, USERS.lastName, ASSESSMENTS.skill_name, ASSESSMENTS.skillLevel, ASSESSMENTS.monthsExp, ASSESSMENTS.devId FROM ASSESSMENTS INNER JOIN USERS ON ASSESSMENTS.devId=USERS.devId WHERE monthsExp = ? AND skillLevel =?";
-    
-		
-		try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
-
-			ps1.setInt(1, monthsExp);
-			ps1.setInt(2, skillLevel);
-
-			ResultSet results1 = ps1.executeQuery();
-
-			while (results1.next()) {
-				Assessment assessment1 = new Assessment(
-						results1.getString("firstName"),
-						results1.getString("lastName"),
-						results1.getInt("monthsExp"),
-						results1.getInt("skillLevel"),
-						results1.getString("skill_name"),
-						Long.valueOf(results1.getInt("devId")));
-
-				assessments1.add(assessment1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		return assessments1;
-	}
+	
+///----- for user story number 4------- 
 	@Override
 	public void add(Assessment assessment) {
 		
@@ -234,7 +129,6 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 			ps1.setInt(1, assessment.getMonthsExp());
 			ps1.setInt(2, assessment.getSkillLevel());
 			ps1.setLong(3, assessment.getDevId());
-//			ps1.setLong(4, assessment.getSkillId());
 			ps1.setString(4, assessment.getSkill_name());
 			
 			ps1.executeUpdate();
@@ -245,7 +139,9 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		}
 
 	}
+///----- 4-------
 	
+///----- for user story number 6------- 	
 	@Override
 	public void update(Assessment assessment) {
 		String updateSql ="UPDATE ASSESSMENTS SET devId=?, monthsExp=?, skillLevel=?, skill_name=? WHERE id=?";
@@ -264,7 +160,10 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		throw new RuntimeException(e);
 	}
 	}
-
+///----- 6------- 
+	
+	
+///----- for user story number 7------- 
   @Override 
   public List<Skills> findBySkill(){
 	  List<Skills> assessments1 = new ArrayList<>();
@@ -310,56 +209,41 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 							results1.getString("skill_name"),results1.getInt("skillLevel"));
 					
 					assessments1.add(assessment1);
-//					skillsList.add(results1.getString("skill"));
-						
-//				System.out.println(results1.getString(1)+":"+results1.getInt(2) + ":" + results1.getInt(3));
-		        
-//				Search assessment1 = new Search(
+
 				switch (results1.getInt(2)) {
 			      case 0:
-			    	 // results1.getInt("Trained");
+			    	 
 			    	  System.out.println("0-Trained");
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			      case 1:
-//			    	  results1.getInt("Novice");
+
 			    	  System.out.println("1-Novice");
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			      case 2:
-			    	  //results1.getInt("Proficient");
+			    	
 			    	  System.out.println("2-Proficient");
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			      case 3:
-			    	//  results1.getInt("Advanced");
+			    	
 			    	  System.out.println("3-Advanced");
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			      case 4:
-			    	//  results1.getInt("Expert");
+			    	
 			    	  System.out.println("4-Expert");
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			      case 5:
-			    	//  results1.getInt("Leader");
+
 			    	  System.out.println("5-Leader");
-//			    	  assessments1.add(assessment1);
+
 			    	  System.out.println(results1.getInt(3));
 			        break;
 			    }
-//				);
-//				Search assessment1 = new Search(
-//						results1.getString("skill_name")
-//						results1.getInt("Trained"),
-//						results1.getInt("Novice"),
-//						results1.getInt("Proficient"),
-//						results1.getInt("Advanced"),
-//						results1.getInt("Expert"),
-//						results1.getInt("Leader")
-//						);
-//
-//				assessments1.add(assessment1);
+
 		}
 				
 		} catch (SQLException e) {
@@ -368,8 +252,9 @@ public class AssessmentJdbcDaoImpl implements AssessmentDao {
 		}
 		return assessments1;
 	}
+///-----  7   ------- 
 
-
+///----- for user story number 5------- 	
 @Override 
 public List<Assessment> findjoinedtable(String skill_name){
 	  List<Assessment> assessments1 = new ArrayList<>();
@@ -379,8 +264,7 @@ public List<Assessment> findjoinedtable(String skill_name){
 		  ps1.setString(1, skill_name);
 		  
 		  ResultSet results1 = ps1.executeQuery();
-		  
-//		  List<String> skillsList = new ArrayList<>();
+
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(
 						
@@ -392,7 +276,6 @@ public List<Assessment> findjoinedtable(String skill_name){
 						Long.valueOf(results1.getInt("devId")));
 				
 				assessments1.add(assessment1);
-//				skillsList.add(results1.getString("skill"));
 			}		
 			
 			System.out.println(assessments1);
@@ -409,8 +292,7 @@ public List<Assessment> findAllJoined() {
 
 	List<Assessment> assessments1 = new ArrayList<>();
 
-//	String sql3 = "INSERT INTO ASSESSMENTS (skill_name) SELECT skill FROM SKILLS WHERE SKILLS.id= ASSESSMENTS.skillId";
-	
+
 	 String sql1 = "SELECT USERS.firstName, USERS.lastName, ASSESSMENTS.skill_name, ASSESSMENTS.skillLevel, ASSESSMENTS.monthsExp, ASSESSMENTS.devId FROM ASSESSMENTS INNER JOIN USERS ON ASSESSMENTS.devId=USERS.devId";
 	try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1); ) {
 
@@ -451,7 +333,6 @@ public List<Assessment> findjoinedtable2(String firstName, String lastName){
 		  
 		  ResultSet results1 = ps1.executeQuery();
 		  
-//		  List<String> skillsList = new ArrayList<>();
 			while (results1.next()) {
 				Assessment assessment1 = new Assessment(
 						
@@ -463,7 +344,6 @@ public List<Assessment> findjoinedtable2(String firstName, String lastName){
 						Long.valueOf(results1.getInt("devId")));
 				
 				assessments1.add(assessment1);
-//				skillsList.add(results1.getString("skill"));
 			}		
 			
 			System.out.println(assessments1);
@@ -485,7 +365,6 @@ public List<Assessment> findjoinedtable3(String firstName, String lastName){
 		  
 		  ResultSet results1 = ps1.executeQuery();
 		  
-//		  List<String> skillsList = new ArrayList<>();
 			while (results1.next()) {
 				Assessment assessment2 = new Assessment(
 						results1.getString("firstName"),
@@ -496,7 +375,6 @@ public List<Assessment> findjoinedtable3(String firstName, String lastName){
 						Long.valueOf(results1.getInt("devId")));
 				
 				assessments1.add(assessment2);
-//				skillsList.add(results1.getString("skill"));
 			}		
 			
 			System.out.println(assessments1);
@@ -506,7 +384,70 @@ public List<Assessment> findjoinedtable3(String firstName, String lastName){
 			}
 			return assessments1;
 		}
+@Override
+public List<Assessment> findByLevelExp2(int monthsExp, int skillLevel) {
+	List<Assessment> assessments1 = new ArrayList<>();
 
+	 String sql1 = "SELECT USERS.firstName, USERS.lastName, ASSESSMENTS.skill_name, ASSESSMENTS.skillLevel, ASSESSMENTS.monthsExp, ASSESSMENTS.devId FROM ASSESSMENTS INNER JOIN USERS ON ASSESSMENTS.devId=USERS.devId WHERE monthsExp = ? AND skillLevel =?";
+
+	
+	try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
+
+		ps1.setInt(1, monthsExp);
+		ps1.setInt(2, skillLevel);
+
+		ResultSet results1 = ps1.executeQuery();
+
+		while (results1.next()) {
+			Assessment assessment1 = new Assessment(
+					results1.getString("firstName"),
+					results1.getString("lastName"),
+					results1.getInt("monthsExp"),
+					results1.getInt("skillLevel"),
+					results1.getString("skill_name"),
+					Long.valueOf(results1.getInt("devId")));
+
+			assessments1.add(assessment1);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new RuntimeException(e);
+	}
+	return assessments1;
+}
+@Override
+public List<Assessment> findByLevelExp(int monthsExp, int skillLevel) {
+	List<Assessment> assessments1 = new ArrayList<>();
+
+	 String sql1 = "SELECT USERS.firstName, USERS.lastName, ASSESSMENTS.skill_name, ASSESSMENTS.skillLevel, ASSESSMENTS.monthsExp, ASSESSMENTS.devId FROM ASSESSMENTS INNER JOIN USERS ON ASSESSMENTS.devId=USERS.devId WHERE monthsExp = ? OR skillLevel =?";
+
+	
+	try (Connection conn1 = dataSource.getConnection(); PreparedStatement ps1 = conn1.prepareStatement(sql1)) {
+
+		ps1.setInt(1, monthsExp);
+		ps1.setInt(2, skillLevel);
+
+		ResultSet results1 = ps1.executeQuery();
+
+		while (results1.next()) {
+			Assessment assessment1 = new Assessment(
+					results1.getString("firstName"),
+					results1.getString("lastName"),
+					results1.getInt("monthsExp"),
+					results1.getInt("skillLevel"),
+					results1.getString("skill_name"),
+					Long.valueOf(results1.getInt("devId")));
+
+			assessments1.add(assessment1);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new RuntimeException(e);
+	}
+	return assessments1;
+}
+
+///----- 5  ------- 	
 }
 
 

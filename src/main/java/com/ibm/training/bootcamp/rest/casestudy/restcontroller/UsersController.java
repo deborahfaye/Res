@@ -6,7 +6,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -43,20 +42,6 @@ public class UsersController {
 				users = userService.findByName(firstName, lastName);
 			}
 			return users;
-		}catch(Exception e) {
-			throw new WebApplicationException(e);
-		}
-	}
-	
-	@GET
-	@Path("{devId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("devId") String devId) {
-		try {
-			Long longid = Long.parseLong(devId) ;
-			User user = userService.find(longid);
-			
-			return user;
 		}catch(Exception e) {
 			throw new WebApplicationException(e);
 		}
